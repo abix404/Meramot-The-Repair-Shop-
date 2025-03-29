@@ -2,144 +2,124 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <title> Navigation Bar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navigation Bar</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
-<style type="text/css">
-      *{
-        text-decoration:none;
-        margin-top: 0px;
-        margin-left: 0px;
-        margin-right: 0px;
-        margin-bottom: 0px;
+    <style>
+        * {
+            text-decoration: none;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-      }
+        .navbar {
+            background: #F8F9FA;
+            font-family: 'Trebuchet MS', Arial, sans-serif;
+            padding: 10px 20px;
+        }
 
-      .navbar{
-        background: #F8F9FA;
-        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-        padding-right: 15px;
-        padding-left: 15px ;
-        padding-bottom: 15px;
-        padding-top: 10px;
+        .logo a {
+            font-size: 35px;
+            font-weight: 500;
+            color: #2a9d8f;
+            text-decoration: none;
+        }
 
-      }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-      .navdiv{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
+        .nav-links a {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
 
-      .logo a{
-        font-size: 35px;
-        font-weight:500;
-        color: #2a9d8f;
-      }
+        .user-menu {
+            position: relative;
+            cursor: pointer;
+        }
 
-      li{
-        list-style: none;
-        display: inline-block;
-      }
+        .user-menu i {
+            font-size: 24px;
+            color: rgb(51, 51, 51);
+        }
+        .logo-img {
+             height: 50px;  /* Adjust height as needed */
+             width: auto;   /* Keeps aspect ratio */
+                   }
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: white;
+            border-radius: 5px;
+            min-width: 150px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
 
-      li a{
-        color: #333333;
-        font-size: 18px;
-        font-weight: bold;
-        margin-right: 25px;
-      }
-
-      button{
-        background-color: #2A9D8F;
-        margin-left: 15px;
-        margin-top: 10px;
-        border-radius: 10px;
-        padding: 10px;
-        width: 90px;
-      }
-      button a{
-        color: white;
-        font-weight: bold;
-        font-size: 15px;
-      }
-
-      .user-menu {
-       position: relative;
-       cursor: pointer;
-}
-
-    .user-menu {
-        font-size: 24px;
-        color: rgb(51, 51, 51);
-    }
-
-    .dropdown {
-        display: none;
-        position: absolute;
-        right: 0;
-        background: transparent;
-        border-radius: 5px;
-        overflow: hidden;
-        min-width: 120px;
-        text-align: center;
-    }
-
-    .dropdown a {
-        display: block;
-        padding: 10px;
-        text-decoration: none;
-        color: black;
-    }
-
-    .dropdown a:hover {
-        background: transparent;
-            margin-top: 2px;
-            border-radius: 10px;
+        .dropdown-menu a {
+            display: block;
             padding: 10px;
-            width: 50px;
-    }
+            color: black;
+            text-decoration: none;
+        }
 
-    .user-menu:hover .dropdown {
-        display: block;
-    }
-</style>
+        .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .user-menu:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-      <div class="navdiv">
-        <div class="logo"><a href="{% url 'home' %}">Meramot</a></div>
-        <ul>
-          <li><a href="{% url 'home' %}">Home</a></li>
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Category</a></li>
-          <li><a href="#">Order</a></li>
-          <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:24px"></i></a></li>
+{% load static %}
+    <nav class="navbar d-flex justify-content-between align-items-center">
+        <!-- Left Side: Logo -->
+        <div class="logo">
+          <a href="{% url 'home' %}">
+           <img src="{% static 'images/logo.png' %}" alt="Meramot Logo" class="logo-img">
+          </a>
+        </div>
 
-          <!-- User Dropdown -->
-          <li class="user-menu">
-            <i class="fa fa-user"></i>
-            <div class="dropdown">
-              {% if user.is_authenticated %}
-              <li>
-                <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                    <i class="fa fa-user"></i> Hi, {{ user.username }}
-                </a>
-                <ul aria-labelledby="userDropdown">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
+        <!-- Right Side: Navigation -->
+        <ul class="nav-links d-flex align-items-center">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Category</a></li>
+            <li><a href="#">Order</a></li>
+            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+
+            <!-- User Dropdown Menu -->
+            <li class="user-menu">
+                <i class="fa fa-user"></i>
+                <div class="dropdown-menu">
+                    {% if user.is_authenticated %}
+                        <a href="#">Hi, {{ user.username }}</a>
+                        <a href="#">Profile</a>
+                        <a href="#">Logout</a>
+                    {% else %}
+                        <a href="#">Sign Up</a>
+                        <a href="#">Login</a>
+                        <a href="#">Become a Seller</a>
+                    {% endif %}
+                </div>
             </li>
-              {% else %}
-              <li> <a href="#" class="btn">Sign Up</a></li>
-              <li> <a href="#" class="btn">Login</a></li>
-              <li> <a href="#" class="btn">Become a seller!</a></li>
-              {% endif %}
-            </div>
-          </li>
         </ul>
-      </div>
     </nav>
+
 </body>
 </html>

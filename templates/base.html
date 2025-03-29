@@ -4,20 +4,24 @@
 {% load static %}
  <meta charset="UTF-8">
     <meta name="viewpoint" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %} </title>
-    {% block extra_css %}
+    <title>{% block title %}
 
-    {% endblock %}
+ {% endblock %} </title>
+ {% block extra_css %}
+
+ {% endblock %}
 
 </head>
 <body>
 {% include 'navbar.html' %}
+
 <div class="container mt-4">
     {% block content %}
 
 
     {% endblock %}
    </div>
+
 {% include 'footer.html' %}
 </body>
 </html>
