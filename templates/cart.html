@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Cart</h2>
+    {% if cart_items %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td>{{ item.service.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ item.service.price }}</td>
+                    <td>
+                        <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">Remove</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h4 class="text-end">Total: ${{ total_price }}</h4>
+        <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+    {% else %}
+        <p class="text-center text-muted">Your cart is empty.</p>
+    {% endif %}
+</div>
+{% endblock %}

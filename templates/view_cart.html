@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style_cart.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container cart-container">
+    <h2 class="mt-4">🛒 Your Cart</h2>
+
+    {% if cart_items %}
+    <table class="table cart-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Service Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td><img src="{{ item.service.image.url }}" alt="{{ item.service.title }}" class="cart-img"></td>
+                <td>{{ item.service.title }}</td>
+                <td>${{ item.service.price }}</td>
+                <td>
+                    <form method="POST" action="{% url 'update_cart' item.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" class="cart-qty">
+                        <button type="submit" class="btn btn-sm btn-info">🔄 Update</button>
+                    </form>
+                </td>
+                <td>${{ item.total_price }}</td>
+                <td>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm">🗑️ Remove</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="cart-summary">
+        <h4>Total: ${{ cart_total }}</h4>
+        <a href="{% url 'checkout' %}" class="btn btn-success">💳 Proceed to Checkout</a>
+    </div>
+
+    {% else %}
+    <p class="empty-cart">Your cart is empty. 🛍️ <a href="{% url 'home' %}">Continue Shopping</a></p>
+    {% endif %}
+</div>
+{% endblock %}

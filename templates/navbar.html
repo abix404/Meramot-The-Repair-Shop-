@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale=1">
+    <title> Navigation Bar</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<style type="text/css">
+      *{
+        text-decoration:none;
+        margin-top: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-bottom: 0px;
+
+      }
+
+      .navbar{
+        background: #F8F9FA;
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        padding-right: 15px;
+        padding-left: 15px ;
+        padding-bottom: 15px;
+        padding-top: 10px;
+
+      }
+
+      .navdiv{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .logo a{
+        font-size: 35px;
+        font-weight:500;
+        color: #2a9d8f;
+      }
+
+      li{
+        list-style: none;
+        display: inline-block;
+      }
+
+      li a{
+        color: #333333;
+        font-size: 18px;
+        font-weight: bold;
+        margin-right: 25px;
+      }
+
+      button{
+        background-color: #2A9D8F;
+        margin-left: 15px;
+        margin-top: 10px;
+        border-radius: 10px;
+        padding: 10px;
+        width: 90px;
+      }
+      button a{
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      .user-menu {
+       position: relative;
+       cursor: pointer;
+}
+
+    .user-menu {
+        font-size: 24px;
+        color: rgb(51, 51, 51);
+    }
+
+    .dropdown {
+        display: none;
+        position: absolute;
+        right: 0;
+        background: transparent;
+        border-radius: 5px;
+        overflow: hidden;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .dropdown a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: black;
+    }
+
+    .dropdown a:hover {
+        background: transparent;
+            margin-top: 2px;
+            border-radius: 10px;
+            padding: 10px;
+            width: 50px;
+    }
+
+    .user-menu:hover .dropdown {
+        display: block;
+    }
+</style>
+</head>
+<body>
+    <nav class="navbar">
+      <div class="navdiv">
+        <div class="logo"><a href="{% url 'home' %}">Meramot</a></div>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Category</a></li>
+          <li><a href="#">Order</a></li>
+          <li><a href="#"><i class="fa fa-shopping-cart" style="font-size:24px"></i></a></li>
+
+          <!-- User Dropdown -->
+          <li class="user-menu">
+            <i class="fa fa-user"></i>
+            <div class="dropdown">
+              {% if user.is_authenticated %}
+              <li>
+                <a href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="fa fa-user"></i> Hi, {{ user.username }}
+                </a>
+                <ul aria-labelledby="userDropdown">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </li>
+              {% else %}
+              <li> <a href="#" class="btn">Sign Up</a></li>
+              <li> <a href="#" class="btn">Login</a></li>
+              <li> <a href="#" class="btn">Become a seller!</a></li>
+              {% endif %}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+</body>
+</html>
