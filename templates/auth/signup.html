@@ -1,46 +1,26 @@
-{% extends "base.html" %}
 {% load static %}
-
-{% block title %}Sign Up - Meramot{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/style_signup.css' %}">
-{% endblock %}
-
-{% block content %}
-<div class="container">
-    <div class="signup-box">
-        <p class="login-text">Have an account? <a href="{% url 'login' %}">Login</a></p>
-        <h1>Sign Up</h1>
-        <form method="POST">
-            {% csrf_token %}
-            
-            <div class="input-group">
-                <input type="text" name="first_name" placeholder="First Name" required>
-                <input type="text" name="last_name" placeholder="Last Name" required>
-            </div>
-            <input type="text" name="mobile_no" placeholder="Mobile No" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password1" placeholder="Password" required>
-            <input type="password" name="password2" placeholder="Confirm Password" required>
-
-            <label>
-                <input type="checkbox" name="is_seller"> Register as a Seller
-            </label>
-
-            <button type="submit" class="register-btn">Register</button>
-
-            <div class="footer-options">
-                <label>
-                    <input type="checkbox"> Remember Me
-                </label>
-                <a href="#">Terms & conditions</a>
-            </div>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/style_signup.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="signup-box">
+            <h1>Sign Up</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}  <!-- Django renders form fields automatically -->
+                <button type="submit" class="register-btn">Register</button>
+            </form>
+            <p class="login-text">Already have an account? <a href="{% url 'login' %}">Login</a></p>
             <div class="back-to-home">
-                <p> Back to <a href="{% url 'home'%}">Home</a> </p>
+                <p>Back to <a href="{% url 'home' %}">Home</a></p>
             </div>
-        </form>
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
