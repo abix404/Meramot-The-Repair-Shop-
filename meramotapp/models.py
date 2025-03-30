@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User, Group, Permission
 # Create your models here.
 
 
@@ -7,13 +7,27 @@ from django.contrib.auth.models import AbstractUser
 # 1️⃣ Custom User Model
 # -------------------------------
 class CustomUser(AbstractUser):
-    is_seller = models.BooleanField(default=False)  # Identify sellers
-    phone_number = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+
+    is_seller = models.BooleanField(default=False) # To check if user is a seller
+    mobile_no = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    groups = models.ManyToManyField(Group, related_name="customuser_set", blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)
 
     def __str__(self):
         return self.username
+# -------------------------------
+# 1️⃣ Custom Seller Model
+# -------------------------------
+class SellerProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    mobile_no = models.CharField(max_length=15, unique=True)
+    address = models.TextField()
+    experience = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='sellers/', default='default.jpg')
+    approved = models.BooleanField(default=False)  # Admin Approval Required
 
+    def __str__(self):
+        return self.user.username
 
 # -------------------------------
 # 2️⃣ Category Model
@@ -63,7 +77,9 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.service.title} ({self.date} {self.time_slot})"
-
+# -------------------------------
+# 6️⃣ Cart
+# -------------------------------
 
 # -------------------------------
 # 5️⃣ Order Model (For Cart & Checkout)
