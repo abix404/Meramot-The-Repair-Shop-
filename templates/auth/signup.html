@@ -4,22 +4,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Sign Up</title>
+    <title>Sign Up</title>
     <link rel="stylesheet" href="{% static 'css/style_signup.css' %}">
 </head>
 <body>
     <div class="container">
         <div class="signup-box">
+            <p class="login-text">Have an account? <a href="{% url 'login' %}">Login</a></p>
             <h1>Sign Up</h1>
             <form method="POST">
                 {% csrf_token %}
-                {{ form.as_p }}  <!-- Django renders form fields automatically -->
+                <div class="form-group">
+                    {{ form.username }}
+                    {{ form.email }}
+                    {{ form.mobile_no }}
+                    {{ form.password1 }}
+                    {{ form.password2 }}
+                </div>
                 <button type="submit" class="register-btn">Register</button>
+                <div class="footer-options">
+                    <label>
+                        <input type="checkbox" required> Accept Terms & Conditions
+                    </label>
+                </div>
+                <div class="back-to-home">
+                    <p>Back to <a href="{% url 'home' %}">Home</a></p>
+                </div>
             </form>
-            <p class="login-text">Already have an account? <a href="{% url 'login' %}">Login</a></p>
-            <div class="back-to-home">
-                <p>Back to <a href="{% url 'home' %}">Home</a></p>
+
+            {% if form.errors %}
+            <div class="error-messages">
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
             </div>
+            {% endif %}
         </div>
     </div>
 </body>

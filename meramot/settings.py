@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'meramotapp.CustomUser'
+AUTH_USER_MODEL = "meramotapp.CustomUser"
 
 
 # Application definition

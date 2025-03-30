@@ -4,7 +4,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from django.contrib.auth.models import User
+
+
 
 # Create your views here.
 
@@ -80,7 +82,7 @@ def user_login(request):
 
 def register(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = UserSignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)  # Automatically log in the user after registration
@@ -91,9 +93,10 @@ def register(request):
         else:
             messages.error(request, "Please correct the errors below.")
     else:
-        form = CustomUserCreationForm()
+        form = UserSignupForm()
 
     return render(request, "auth/signup.html", {"form": form})
+
 
 
 def user_signup(request):
@@ -102,8 +105,14 @@ def user_signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect("home")  # Redirect after signup
+            messages.success(request, "Account created successfully!")
+            return redirect("home") 
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = UserSignupForm()
 
     return render(request, "auth/signup.html", {"form": form})
+
+
+

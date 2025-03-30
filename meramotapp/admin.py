@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Category, Service, Booking, Order, Review, SellerProfile, CustomUser
+from .models import Category, Service, Booking, Order, Review, SellerProfile, CustomUser
 from django.contrib.auth.admin import UserAdmin
 # Register your models here.
 
