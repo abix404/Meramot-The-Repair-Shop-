@@ -1,13 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Seller Dashboard{% endblock %}
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/style_seller_dashboard.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h2>Welcome, {{ seller.user.username }}</h2>
-    <img src="{{ seller.image.url }}" alt="Profile Image" width="100">
-    <p>Mobile: {{ seller.mobile_no }}</p>
-    <p>Address: {{ seller.address }}</p>
-    <p>Experience: {{ seller.experience }}</p>
-    <a href="{% url 'seller_update' %}">Edit Profile</a> |
-    <a href="{% url 'seller_delete' %}">Delete Profile</a> |
-    <a href="{% url 'logout' %}">Logout</a>
+    <h2>My Services</h2>
+    <a href="{% url 'add_service' %}" class="btn btn-primary">Add New Service</a>
+    <div class="service-list">
+        {% for service in services %}
+        <div class="service-card">
+            <img src="{{ service.image.url }}" alt="{{ service.title }}">
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+            <p><strong>Price:</strong> {{ service.price }} BDT</p>
+            <p><strong>Location:</strong> {{ service.location }}</p>
+            <p><strong>Rating:</strong> ⭐{{ service.rating }}</p>
+            <a href="{% url 'edit_service' service.id %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'delete_service' service.id %}" class="btn btn-danger">Delete</a>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}

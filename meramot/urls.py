@@ -19,7 +19,7 @@ from django.urls import path
 from meramotapp import views as views
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,16 +28,22 @@ urlpatterns = [
 
     path("seller/signup/", views.seller_signup, name="seller_signup"),
 
-    path("dashboard/", views.seller_dashboard, name="seller_dashboard"),
-
-    path("update/", views.seller_update, name="seller_update"),
-
-    path("delete/", views.seller_delete, name="seller_delete"),
-
     path("logout/", views.user_logout, name="logout"),
 
     path("login/", views.user_login, name="login"),
 
     path("signup/", views.user_signup, name="user_signup"),
+
+    path('seller/dashboard/', views.seller_dashboard, name='seller_dashboard'),
+
+    path('seller/add-service/', views.add_service, name='add_service'),
+
+    path('seller/edit-service/<int:service_id>/', views.edit_service, name='edit_service'),
+
+    path('seller/delete-service/<int:service_id>/', views.delete_service, name='delete_service'),
+
+    path('categories/', views.category_list, name='category_list'),
+
+    path('search/', views.search_services, name='search_services'),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

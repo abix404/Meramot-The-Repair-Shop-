@@ -29,6 +29,37 @@
             text-decoration: none;
         }
 
+        .search-form {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 5px;
+}
+
+        .search-form input {
+            border: none;
+            outline: none;
+            padding: 8px;
+            width: 250px;
+            font-size: 1em;
+        }
+
+        .search-form button {
+            border: none;
+            background: #007bff;
+            color: white;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .search-form button:hover {
+            background: #0056b3;
+        }
+
+
         .nav-links {
             list-style: none;
             display: flex;
@@ -95,11 +126,16 @@
           </a>
         </div>
 
+        <form action="{% url 'search_services' %}" method="GET" class="search-form">
+                <input type="text" name="query" placeholder="Search services..." required>
+                <button type="submit">🔍</button>
+
+        </form>
         <!-- Right Side: Navigation -->
         <ul class="nav-links d-flex align-items-center">
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="#">About Us</a></li>
-            <li><a href="#">Category</a></li>
+            <li><a href="{% url 'category_list' %}">Category</a></li>
             <li><a href="#">Order</a></li>
             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 

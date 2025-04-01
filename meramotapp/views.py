@@ -1,10 +1,10 @@
+from django.contrib.auth.models import User
 from .models import Category, Service, SellerProfile, CustomUser
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm
+from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm, ServiceForm
 from django.contrib import messages
-from django.contrib.auth.models import User
 
 
 
@@ -16,6 +16,20 @@ def home(request):
     top_services = Service.objects.order_by('-rating')[:4]  # Show top 4 services
 
     return render(request, 'home.html', {'categories': categories, 'top_services': top_services})
+
+# Category
+
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'category_list.html', {'categories': categories})
+
+
+def search_services(request):
+    query = request.GET.get('query', '')
+    results = Service.objects.filter(title__icontains=query) if query else []
+    return render(request, 'search_results.html', {'results': results, 'query': query})
+
+
 
 # Seller Registration
 def seller_signup(request):
@@ -29,33 +43,6 @@ def seller_signup(request):
         form = SellerSignUpForm()
     return render(request, "seller/seller_signup.html", {"form": form})
 
-# Seller Dashboard
-@login_required
-def seller_dashboard(request):
-    seller = get_object_or_404(SellerProfile, user=request.user)
-    return render(request, "seller/seller_dashboard.html", {"seller": seller})
-
-# Update Seller Profile
-@login_required
-def seller_update(request):
-    seller = get_object_or_404(SellerProfile, user=request.user)
-    if request.method == "POST":
-        form = SellerProfileForm(request.POST, request.FILES, instance=seller)
-        if form.is_valid():
-            form.save()
-            return redirect("seller_dashboard")
-    else:
-        form = SellerProfileForm(instance=seller)
-    return render(request, "seller/seller_update.html", {"form": form})
-
-# Delete Seller Profile
-@login_required
-def seller_delete(request):
-    seller = get_object_or_404(SellerProfile, user=request.user)
-    if request.method == "POST":
-        request.user.delete()
-        return redirect("home")
-    return render(request, "seller/seller_delete.html")
 
 # Logout
 def user_logout(request):
@@ -113,6 +100,48 @@ def user_signup(request):
         form = UserSignupForm()
 
     return render(request, "auth/signup.html", {"form": form})
+
+
+@login_required
+def seller_dashboard(request):
+    services = Service.objects.filter(seller=request.user)
+    return render(request, 'seller/seller_dashboard.html', {'services': services})
+
+@login_required
+def add_service(request):
+    if request.method == 'POST':
+        form = ServiceForm(request.POST, request.FILES)
+        if form.is_valid():
+            service = form.save(commit=False)
+            service.seller = request.user  # Assign logged-in seller
+            service.save()
+            return redirect('seller_dashboard')
+    else:
+        form = ServiceForm()
+    return render(request, 'seller/add_service.html', {'form': form})
+
+@login_required
+def edit_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id, seller=request.user)
+    if request.method == 'POST':
+        form = ServiceForm(request.POST, request.FILES, instance=service)
+        if form.is_valid():
+            form.save()
+            return redirect('seller_dashboard')
+    else:
+        form = ServiceForm(instance=service)
+    return render(request, 'seller/edit_service.html', {'form': form})
+
+@login_required
+def delete_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id, seller=request.user)
+    if request.method == 'POST':
+        service.delete()
+        return redirect('seller_dashboard')
+    return render(request, 'seller/delete_service.html', {'service': service})
+
+
+
 
 
 

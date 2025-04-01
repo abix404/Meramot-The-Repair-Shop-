@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Categories - Meramot</title>
+    <link rel="stylesheet" href="{% static 'css/style_category.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Browse Service Categories</h1>
+        <div class="category-grid">
+            {% for category in categories %}
+            <div class="category-card">
+                <a href="{% url 'category_services' category.slug %}">
+                    <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                    <h3>{{ category.name }}</h3>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="back-home">
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

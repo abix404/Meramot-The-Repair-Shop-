@@ -1,11 +1,13 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block title %}Edit Service{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h2>Update Profile</h2>
+    <h2>Edit Service</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Update</button>
+        <button type="submit" class="btn btn-success">Update</button>
     </form>
 </div>
 {% endblock %}
