@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+import random
 from .models import Category, Service, SellerProfile, CustomUser
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
@@ -13,9 +14,16 @@ from django.contrib import messages
 
 def home(request):
     categories = Category.objects.all()
-    top_services = Service.objects.order_by('-rating')[:4]  # Show top 4 services
 
-    return render(request, 'home.html', {'categories': categories, 'top_services': top_services})
+    all_services = list(Service.objects.all())  # Fetch all services
+    random_services = random.sample(all_services, min(len(all_services), 10))  # Pick 10 random
+    initial_services = random_services[:5]  # First 5 services for the slider
+
+    return render(request, "home.html", {
+        "categories": categories,
+        "services": random_services,
+        "initial_services": initial_services,
+    })
 
 # Category
 
@@ -141,7 +149,8 @@ def delete_service(request, service_id):
     return render(request, 'seller/delete_service.html', {'service': service})
 
 
-
-
+def service_detail(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    return render(request, "service_detail.html", {"service": service})
 
 

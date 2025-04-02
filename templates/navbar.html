@@ -48,7 +48,7 @@
 
         .search-form button {
             border: none;
-            background: #007bff;
+            background: transparent;
             color: white;
             padding: 8px 12px;
             cursor: pointer;
@@ -56,7 +56,7 @@
         }
 
         .search-form button:hover {
-            background: #0056b3;
+            background: rgba(0, 0, 0, 0.1);
         }
 
 
@@ -145,7 +145,7 @@
                 <div class="dropdown-menu">
                     {% if user.is_authenticated %}
                         <a href="#">Hi, {{ user.username }}</a>
-                        <a href="#">Profile</a>
+                        <a href="{% url 'seller_dashboard' %}">Profile</a>
                         <a href="{% url 'logout' %}">Logout</a>
                     {% else %}
                         <a href="{% url 'user_signup' %}">Sign Up</a>

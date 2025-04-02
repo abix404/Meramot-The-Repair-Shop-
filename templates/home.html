@@ -41,31 +41,56 @@
         {% for category in categories %}
         <div class="col-md-4">
             <div class="card service-card">
-                <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
-                <div class="card-body text-center">
+                {% if category.image %}
+                    <img src="{{ category.image.url }}" class="card-img-top" alt="{{ category.name }}">
+                {% else %}
+                    <img src="{% static 'images/default-category.jpg' %}" class="card-img-top" alt="{{ category.name }}">
+                {% endif %}
+                <div class="card-body">
                     <h5 class="card-title">{{ category.name }}</h5>
-                    <a href="{% url 'category_services' category.slug %}" class="btn btn-primary">View Services</a>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- Top Services -->
-    <h2 class="section-title">Top Rated Services</h2>
-    <div class="row">
-        {% for service in top_services %}
-        <div class="col-md-3">
-            <div class="card service-card">
-                <img src="{{ service.image.url }}" class="card-img-top" alt="{{ service.title }}">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ service.title }}</h5>
-                    <p class="card-text">{{ service.price }} BDT</p>
-                    <a href="{% url 'service_detail' service.id %}" class="btn btn-success">Book Now</a>
-                </div>
-            </div>
+    <!-- Service Slider -->
+    <h2 class="section-title">Top Services</h2>
+    <div class="service-slider">
+        {% for service in initial_services %}
+        <div class="service-card">
+            <img src="{{ service.image.url }}" alt="{{ service.title }}">
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description|truncatechars:50 }}</p>
+            <p><strong>Price:</strong> ${{ service.price }}</p>
+            <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
         </div>
         {% endfor %}
     </div>
-</div>
+
+    <!-- View All Services -->
+    <button id="viewAllBtn" class="btn">View All</button>
+
+    <div id="allServices" class="hidden">
+        <h2>All Services</h2>
+        <div class="service-grid">
+            {% for service in services %}
+            <div class="service-card">
+                <img src="{{ service.image.url }}" alt="{{ service.title }}">
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description|truncatechars:50 }}</p>
+                <p><strong>Price:</strong> ${{ service.price }}</p>
+                <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("viewAllBtn").addEventListener("click", function() {
+            document.getElementById("allServices").classList.toggle("hidden");
+        });
+    </script>
+
+    </div>
 {% endblock %}

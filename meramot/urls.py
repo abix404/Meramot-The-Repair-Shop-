@@ -46,4 +46,6 @@ urlpatterns = [
 
     path('search/', views.search_services, name='search_services'),
 
+    path('service/<int:pk>/', views.service_detail, name='service_detail'),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

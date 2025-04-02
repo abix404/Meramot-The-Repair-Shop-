@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ service.title }} - Meramot</title>
+    <link rel="stylesheet" href="{% static 'css/style_service_detail.css' %}">
+</head>
+<body>
+
+    <div class="service-container">
+        <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-img">
+        <div class="service-info">
+            <h1>{{ service.title }}</h1>
+            <p><strong>Category:</strong> {{ service.category.name }}</p>
+            <p><strong>Location:</strong> {{ service.location }}</p>
+            <p><strong>Price:</strong> ${{ service.price }}</p>
+            <p><strong>Description:</strong> {{ service.description }}</p>
+            <p><strong>Rating:</strong> ⭐ {{ service.rating }}/5</p>
+            <a href="#" class="btn">Book Now</a>
+        </div>
+    </div>
+
+</body>
+</html>
