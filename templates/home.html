@@ -62,7 +62,7 @@
             <img src="{{ service.image.url }}" alt="{{ service.title }}">
             <h3>{{ service.title }}</h3>
             <p>{{ service.description|truncatechars:50 }}</p>
-            <p><strong>Price:</strong> ${{ service.price }}</p>
+            <p><strong>Price:</strong> {{ service.price }} Tk.</p>
             <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
         </div>
         {% endfor %}
@@ -70,21 +70,6 @@
 
     <!-- View All Services -->
     <button id="viewAllBtn" class="btn">View All</button>
-
-    <div id="allServices" class="hidden">
-        <h2>All Services</h2>
-        <div class="service-grid">
-            {% for service in services %}
-            <div class="service-card">
-                <img src="{{ service.image.url }}" alt="{{ service.title }}">
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.description|truncatechars:50 }}</p>
-                <p><strong>Price:</strong> ${{ service.price }}</p>
-                <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
     <script>
         document.getElementById("viewAllBtn").addEventListener("click", function() {

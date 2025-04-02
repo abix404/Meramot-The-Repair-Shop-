@@ -6,34 +6,18 @@ body {
     padding: 0;
 }
 
-/* Section Titles */
-.section-title {
-    text-align: center;
-    margin: 40px 0 20px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-}
-
-/* Service Card */
-.service-card {
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out;
-}
 
 .service-card:hover {
     transform: scale(1.05);
 }
 
-/* Carousel Image */
+
 .carousel img {
     border-radius: 8px;
     height: 350px;
     object-fit: cover;
 }
 
-/* Section Title */
 .section-title {
     text-align: center;
     font-size: 28px;
@@ -42,9 +26,6 @@ body {
     margin: 30px 0 20px;
 }
 
-/* ========================= */
-/* 📌 Service Slider Styles */
-/* ========================= */
 .service-slider {
     display: flex;
     gap: 15px;
