@@ -48,4 +48,8 @@ urlpatterns = [
 
     path('service/<int:pk>/', views.service_detail, name='service_detail'),
 
+    path('book/<int:service_id>/', views.book_service, name='book_service'),
+
+    path('booking/success/<int:booking_id>/', views.booking_success, name='booking_success'),
+
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Booking Successful!{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style_booking_success.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="success-container">
+        <img src="{% static 'images/congratulation.gif' %}" alt="Success" class="success-gif">
+        <h1>🎉 Congratulations, {{ user.username }}! 🎉</h1>
+        <p>Your booking has been successfully confirmed.</p>
+        <p><strong>Service:</strong> {{ booking.service.title }}</p>
+        <p><strong>Date:</strong> {{ booking.date }}</p>
+        <p><strong>Time Slot:</strong> {{ booking.time_slot }}</p>
+
+        <a href="{% url 'home' %}" class="btn">Go to Homepage</a>
+    </div>
+{% endblock %}

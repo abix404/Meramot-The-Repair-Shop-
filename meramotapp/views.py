@@ -1,12 +1,11 @@
 from django.contrib.auth.models import User
 import random
-from .models import Category, Service, SellerProfile, CustomUser
+from .models import Category, Service, Booking, SellerProfile, CustomUser
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm, ServiceForm
+from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm, ServiceForm, BookingForm
 from django.contrib import messages
-
 
 
 # Create your views here.
@@ -149,8 +148,29 @@ def delete_service(request, service_id):
     return render(request, 'seller/delete_service.html', {'service': service})
 
 
-def service_detail(request, service_id):
-    service = get_object_or_404(Service, id=service_id)
+def service_detail(request, pk):
+    service = get_object_or_404(Service, id=pk)
     return render(request, "service_detail.html", {"service": service})
 
 
+@login_required
+def book_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+
+    if request.method == "POST":
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.user = request.user
+            booking.service = service
+            booking.save()
+            return redirect('booking_success' ,booking_id=booking.id)
+    else:
+        form = BookingForm()
+
+    return render(request, 'booking.html', {'service': service, 'form': form})
+
+@login_required
+def booking_success(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+    return render(request, 'booking_success.html', {'booking': booking})

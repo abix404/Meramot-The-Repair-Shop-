@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, User, Group, Permission
 from django.conf import settings
+
 # Create your models here.
 
 
@@ -64,20 +65,16 @@ class Service(models.Model):
 # 4️⃣ Booking Model
 # -------------------------------
 class Booking(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     service = models.ForeignKey(Service, on_delete=models.CASCADE)
     date = models.DateField()
-    time_slot = models.CharField(max_length=50)  # Example: "10:00 AM - 11:00 AM"
-    status = models.CharField(max_length=20, choices=[
-        ('pending', 'Pending'),
-        ('confirmed', 'Confirmed'),
-        ('completed', 'Completed'),
-        ('canceled', 'Canceled')
-    ], default='pending')
+    time_slot = models.CharField(max_length=20)  # Example: "10:00 AM - 11:00 AM"
+    status = models.CharField(max_length=20, choices=[('Pending', 'Pending'), ('Confirmed', 'Confirmed'), ('Cancelled', 'Cancelled')], default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.service.title} ({self.date} {self.time_slot})"
+        return f"{self.user.username} - {self.service.title} on {self.date} at {self.time_slot}"
+
 # -------------------------------
 # 6️⃣ Cart
 # -------------------------------

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, SellerProfile, Service
+from .models import CustomUser, SellerProfile, Service, Booking
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
@@ -80,3 +80,19 @@ class ServiceForm(forms.ModelForm):
     class Meta:
         model = Service
         fields = ['category', 'title', 'description', 'price', 'image', 'location']
+
+class BookingForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ['date', 'time_slot']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'time_slot': forms.Select(choices=[
+                ("9:00 AM - 10:00 AM", "9:00 AM - 10:00 AM"),
+                ("10:00 AM - 11:00 AM", "10:00 AM - 11:00 AM"),
+                ("11:00 AM - 12:00 PM", "11:00 AM - 12:00 PM"),
+                ("2:00 PM - 3:00 PM", "2:00 PM - 3:00 PM"),
+                ("3:00 PM - 4:00 PM", "3:00 PM - 4:00 PM"),
+                ("4:00 PM - 5:00 PM", "4:00 PM - 5:00 PM"),
+            ], attrs={'class': 'form-control'}),
+        }

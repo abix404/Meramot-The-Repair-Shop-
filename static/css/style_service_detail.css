@@ -1,43 +1,101 @@
-.service-slider {
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+body {
+    background: url("/static/images/BG_1.png") 50% 0 no-repeat fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+.service-container {
     display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding: 10px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    margin: 80px auto 50px; /* Keeps it centered without affecting navbar/footer */
+    transition: transform 0.3s ease-in-out;
 }
 
-.service-card {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    min-width: 200px;
+.service-container:hover {
+    transform: scale(1.02);
 }
 
-.service-card img {
+
+.service-img {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
+    max-width: 400px;
     border-radius: 10px;
+    object-fit: cover;
+    margin-right: 20px;
 }
+
+
+.service-info {
+    flex: 1;
+    padding: 15px;
+}
+
+.service-info h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    color: #f8f9fa;
+}
+
+.service-info p {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #ddd;
+}
+
+.service-info strong {
+    color: #fff;
+}
+
 
 .btn {
-    background: blue;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    text-decoration: none;
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #e1e149, #00ffe2);
+    color: #040000;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgb(26, 108, 97);
 }
 
-.hidden {
-    display: none;
+.btn:hover {
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    box-shadow: 0 6px 12px rgba(255, 117, 140, 0.4);
 }
 
-.service-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-top: 20px;
+
+@media (max-width: 768px) {
+    .service-container {
+        flex-direction: column;
+        text-align: center;
+        padding: 15px;
+    }
+
+    .service-img {
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        width: 100%;
+    }
 }
