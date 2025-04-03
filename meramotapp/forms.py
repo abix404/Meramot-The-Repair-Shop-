@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser, SellerProfile, Service, Booking
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm
 
 CustomUser = get_user_model()
 
@@ -35,7 +36,9 @@ class SellerProfileForm(forms.ModelForm):
     class Meta:
         model = SellerProfile
         fields = ['mobile_no', 'address', 'experience', 'image']
-
+        widgets = {
+                    "password": forms.PasswordInput(),
+                }
 
 class UserSignupForm(forms.ModelForm):
     password1 = forms.CharField(
@@ -96,3 +99,11 @@ class BookingForm(forms.ModelForm):
                 ("4:00 PM - 5:00 PM", "4:00 PM - 5:00 PM"),
             ], attrs={'class': 'form-control'}),
         }
+
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Username"})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Password"})
+    )

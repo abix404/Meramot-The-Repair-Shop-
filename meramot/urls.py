@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('', views.home, name='home'),
 
-    path("seller/signup/", views.seller_signup, name="seller_signup"),
+    path("seller/seller_signup/", views.seller_signup, name="seller_signup"),
 
     path("login/",  LoginView.as_view(template_name="auth/login.html"), name="login"),
 
@@ -35,11 +35,11 @@ urlpatterns = [
 
     path("signup/", views.user_signup, name="user_signup"),
 
-    path("user-dashboard/", views.user_dashboard,  name="user_dashboard"),
+    path("user/user-dashboard/", views.user_dashboard,  name="user_dashboard"),
 
     path("cancel-order/<int:order_id>/", views.cancel_order, name="cancel_order"),
 
-    path('seller/dashboard/', views.seller_dashboard, name='seller_dashboard'),
+    path('seller/seller-dashboard/', views.seller_dashboard, name='seller_dashboard'),
 
     path('seller/add-service/', views.add_service, name='add_service'),
 
@@ -56,5 +56,11 @@ urlpatterns = [
     path('book/<int:service_id>/', views.book_service, name='book_service'),
 
     path('booking/success/<int:booking_id>/', views.booking_success, name='booking_success'),
+
+    path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),
+
+    path("verify-seller/<int:seller_id>/", views.verify_seller, name="verify_seller"),
+
+    path("manage-orders/", views.manage_orders, name="manage_orders"),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

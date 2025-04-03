@@ -1,0 +1,48 @@
+.admin-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.admin-section {
+    margin-bottom: 30px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th, .admin-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.admin-table th {
+    background: #333;
+    color: #fff;
+}
+
+.btn-approve {
+    display: inline-block;
+    padding: 8px 12px;
+    background: green;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+.btn-manage-orders {
+    display: inline-block;
+    padding: 10px 15px;
+    background: blue;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+}

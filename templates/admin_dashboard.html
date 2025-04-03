@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Admin Dashboard - Meramot{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style_admin.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h1>Admin Dashboard</h1>
+    
+    <div class="admin-section">
+        <h2>Pending Seller Approvals</h2>
+        {% if sellers %}
+            <table class="admin-table">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+                {% for seller in sellers %}
+                <tr>
+                    <td>{{ seller.username }}</td>
+                    <td>{{ seller.email }}</td>
+                    <td><a href="{% url 'verify_seller' seller.id %}" class="btn-approve">Verify</a></td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No pending seller verifications.</p>
+        {% endif %}
+    </div>
+
+    <div class="admin-section">
+        <h2>All Users</h2>
+        <table class="admin-table">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.is_seller %}Seller{% else %}User{% endif %}</td>
+                <td>{% if user.is_active %}Active{% else %}Inactive{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="admin-section">
+        <h2>Recent Orders</h2>
+        <a href="{% url 'manage_orders' %}" class="btn-manage-orders">Manage Orders</a>
+    </div>
+</div>
+{% endblock %}

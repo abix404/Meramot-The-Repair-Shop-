@@ -1,12 +1,13 @@
 from django.contrib.auth.models import User
 import random
-from .models import Category, Service, Booking, SellerProfile, CustomUser
+from meramotapp.models import CustomUser, Category, Service, Booking, SellerProfile, Order
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.decorators import login_required
-from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm, ServiceForm, BookingForm
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .forms import SellerProfileForm, UserSignupForm, ServiceForm, BookingForm, SellerSignUpForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from .forms import UserLoginForm
 
 # Create your views here.
 
@@ -43,11 +44,18 @@ def seller_signup(request):
     if request.method == "POST":
         form = SellerSignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect("seller_dashboard")
+            user = form.save(commit=False)
+            user.is_seller = True  # Mark as seller
+            user.is_normal_user = False  # Ensure they are not a normal user
+            user.save()
+            messages.success(request, "Seller account created! You can now log in.")
+
+            return redirect("login")  # Redirect to login page
+        else:
+            messages.error(request, "Something went wrong. Please check your inputs.")
     else:
         form = SellerSignUpForm()
+
     return render(request, "seller/seller_signup.html", {"form": form})
 
 
@@ -94,8 +102,8 @@ def user_signup(request):
 
 @login_required
 def seller_dashboard(request):
-    services = Service.objects.filter(seller=request.user)
-    return render(request, 'seller/seller_dashboard.html', {'services': services})
+        services = Service.objects.filter(seller=request.user)
+        return render(request, "seller/seller_dashboard.html", {"services": services})
 
 @login_required
 def add_service(request):
@@ -187,18 +195,50 @@ def cancel_order(request, order_id):
 
 def user_login(request):
     if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        form = UserLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            login(request, user)
-            if user.is_seller:
-                return redirect("seller/seller_dashboard")
+            if user is not None:
+                login(request, user)
+
+                if user.is_seller:
+                    return redirect("seller/seller_dashboard")
+                else:
+                    return redirect("user/user_dashboard")
             else:
-                return redirect("user/user_dashboard")
-        else:
-            return render(request, "auth/login.html", {"error": "Invalid credentials"})
+                messages.error(request, "Invalid username or password.")
 
-    return render(request, "auth/login.html")
+    return render(request, "auth/login.html", {"form": form})
+
+
+def is_admin(user):
+    return user.is_superuser
+
+@login_required
+@user_passes_test(is_admin)
+def admin_dashboard(request):
+    users = CustomUser.objects.all()
+    sellers = CustomUser.objects.filter(is_seller=True, is_active=False)  # Pending verification
+    orders = Order.objects.all()
+    return render(request, "admin_dashboard.html", {"users": users, "sellers": sellers, "orders": orders})
+
+@login_required
+@user_passes_test(is_admin)
+def verify_seller(request, seller_id):
+    seller = get_object_or_404(CustomUser, id=seller_id)
+    seller.is_active = True  # Activate seller
+    seller.save()
+    messages.success(request, "Seller has been verified.")
+    return redirect("admin_dashboard")
+
+@login_required
+@user_passes_test(is_admin)
+def manage_orders(request):
+    orders = Order.objects.all()
+    return render(request, "manage_orders.html", {"orders": orders})
+
+
 

@@ -11,6 +11,8 @@
 <div class="login-container">
     <div class="login-box">
         <h2>Login</h2>
+
+        <!-- Display Error Messages -->
         {% if messages %}
         <div class="alert alert-danger">
             {% for message in messages %}
@@ -18,19 +20,35 @@
             {% endfor %}
         </div>
         {% endif %}
+
         <form method="POST">
             {% csrf_token %}
+
+            <!-- Render Form Fields Correctly -->
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <span class="error">{{ form.username.errors.0 }}</span>
+                {% endif %}
             </div>
+
             <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    <span class="error">{{ form.password.errors.0 }}</span>
+                {% endif %}
             </div>
+
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
-        <p class="signup-link">Don't have an account? <a href="{% url 'user_signup' %}">Sign Up</a></p>
+
+        <p class="signup-link">
+            Don't have an account?
+            <a href="{% url 'user_signup' %}">Sign Up</a> or
+            <a href="{% url 'seller_signup' %}">Become a Seller</a>
+        </p>
     </div>
 </div>
 {% endblock %}
