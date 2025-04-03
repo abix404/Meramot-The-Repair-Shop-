@@ -106,8 +106,17 @@
             color: black;
             text-decoration: none;
         }
-
         .dropdown-menu a:hover {
+            background: #f1f1f1;
+        }
+
+        .dropdown-menu form {
+            display: block;
+            padding: 10px;
+            color: black;
+            text-decoration: none;
+        }
+        .dropdown-menu form:hover {
             background: #f1f1f1;
         }
 
@@ -136,24 +145,34 @@
             <li><a href="{% url 'home' %}">Home</a></li>
             <li><a href="#">About Us</a></li>
             <li><a href="{% url 'category_list' %}">Category</a></li>
-            <li><a href="#">Order</a></li>
+            <li><a href="#">Booking</a></li>
             <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
 
             <!-- User Dropdown Menu -->
-            <li class="user-menu">
-                <i class="fa fa-user"></i>
-                <div class="dropdown-menu">
-                    {% if user.is_authenticated %}
-                        <a href="#">Hi, {{ user.username }}</a>
-                        <a href="{% url 'seller_dashboard' %}">Profile</a>
-                        <a href="{% url 'logout' %}">Logout</a>
+        <li class="user-menu">
+            <i class="fa fa-user"></i>
+            <div class="dropdown-menu">
+                {% if user.is_authenticated %}
+                    <a href="#">Hi, {{ user.username }}</a>
+                    {% if user.is_seller %}
+                        <a href="{% url 'seller_dashboard' %}">Seller Dashboard</a>
                     {% else %}
-                        <a href="{% url 'user_signup' %}">Sign Up</a>
-                        <a href="{% url 'login' %}">Login</a>
-                        <a href="{% url 'seller_signup' %}">Become a Seller</a>
+                        <a href="{% url 'user_dashboard' %}">User Dashboard</a>
                     {% endif %}
-                </div>
-            </li>
+
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+
+                   {% else %}
+                    <a href="{% url 'user_signup' %}">Sign Up</a>
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'seller_signup' %}">Become a Seller</a>
+                {% endif %}
+            </div>
+        </li>
+
         </ul>
     </nav>
 

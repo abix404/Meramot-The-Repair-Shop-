@@ -11,9 +11,18 @@ from django.conf import settings
 class CustomUser(AbstractUser):
 
     is_seller = models.BooleanField(default=False) # To check if user is a seller
+    is_normal_user = models.BooleanField(default=True)
     mobile_no = models.CharField(max_length=15, unique=True, null=True, blank=True)
     groups = models.ManyToManyField(Group, related_name="customuser_set", blank=True)
     user_permissions = models.ManyToManyField(Permission, related_name="customuser_permissions", blank=True)
+
+    def save(self, *args, **kwargs):
+        # Ensure a user can't be both a seller and a normal user
+        if self.is_seller:
+            self.is_normal_user = False
+        else:
+            self.is_normal_user = True
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username

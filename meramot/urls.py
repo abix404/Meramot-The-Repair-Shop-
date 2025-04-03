@@ -20,7 +20,8 @@ from meramotapp import views as views
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -28,11 +29,15 @@ urlpatterns = [
 
     path("seller/signup/", views.seller_signup, name="seller_signup"),
 
-    path("logout/", views.user_logout, name="logout"),
+    path("login/",  LoginView.as_view(template_name="auth/login.html"), name="login"),
 
-    path("login/", views.user_login, name="login"),
+    path("logout/", LogoutView.as_view(next_page="/"), name="logout"),
 
     path("signup/", views.user_signup, name="user_signup"),
+
+    path("user-dashboard/", views.user_dashboard,  name="user_dashboard"),
+
+    path("cancel-order/<int:order_id>/", views.cancel_order, name="cancel_order"),
 
     path('seller/dashboard/', views.seller_dashboard, name='seller_dashboard'),
 

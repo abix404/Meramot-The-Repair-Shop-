@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Deshboard- {{user.username}} {% endblock %}
+
+{% block extra_css %}
+
+{% endblock %}
+
+
+{% block content %}
+<h2>Welcome, {{ user.username }}!</h2>
+
+    <h3>Your Orders</h3>
+    <ul>
+        {% for order in orders %}
+            <li>{{ order.service.title }} - {{ order.status }}
+                <a href="{% url 'cancel_order' order.id %}">Cancel</a>
+            </li>
+        {% empty %}
+            <p>No orders yet.</p>
+        {% endfor %}
+    </ul>
+    <h3>Cancel Oder</h3>
+    <ul>
+        {% for order in orders %}
+            <li>
+                {{ order.service.title }} - {{ order.status }}
+                {% if order.status == "Pending" %}
+                    <a href="{% url 'cancel_order' order.id %}" class="cancel-btn">Cancel</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <p>No orders yet.</p>
+        {% endfor %}
+    </ul>
+    <h3>Leave a Review</h3>
+    <ul>
+        {% for service in completed_services %}
+            <li>{{ service.title }}
+                <a href="{% url 'leave_review' service.id %}">Write Review</a>
+            </li>
+        {% empty %}
+            <p>No completed services yet.</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

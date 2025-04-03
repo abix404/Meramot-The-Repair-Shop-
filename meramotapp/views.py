@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import SellerSignUpForm, SellerProfileForm, UserSignupForm, ServiceForm, BookingForm
 from django.contrib import messages
-
+from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
 
@@ -56,23 +56,6 @@ def user_logout(request):
     logout(request)
     return redirect("home")
 
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            if user.is_seller:  # If the user is a seller
-                return redirect("seller_dashboard")  # Redirect to seller dashboard
-            else:
-                return redirect("home")  # Redirect to normal user homepage
-        else:
-            messages.error(request, "Invalid username or password.")
-
-    return render(request, "auth/login.html")
 
 def register(request):
     if request.method == "POST":
@@ -157,6 +140,9 @@ def service_detail(request, pk):
 def book_service(request, service_id):
     service = get_object_or_404(Service, id=service_id)
 
+    if request.user.is_seller:
+            return redirect("home")
+
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
@@ -174,3 +160,45 @@ def book_service(request, service_id):
 def booking_success(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
     return render(request, 'booking_success.html', {'booking': booking})
+
+
+@login_required
+def user_dashboard(request):
+    if request.user.is_seller:
+        return redirect("seller_dashboard")  # Prevent sellers from accessing
+
+    orders = Booking.objects.filter(user=request.user)
+    completed_services = Service.objects.filter(booking__user=request.user, booking__status="Completed")
+
+    return render(request, "user/user_dashboard.html", {"orders": orders, "completed_services": completed_services})
+
+@login_required
+def cancel_order(request, order_id):
+    order = get_object_or_404(Booking, id=order_id, user=request.user)
+
+    if order.status == "Pending":  # Ensure only pending orders can be canceled
+        order.status = "Canceled"
+        order.save()
+        messages.success(request, "Your order has been canceled successfully.")
+    else:
+        messages.error(request, "You can only cancel pending orders.")
+
+    return redirect("user_dashboard")
+
+def user_login(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            if user.is_seller:
+                return redirect("seller/seller_dashboard")
+            else:
+                return redirect("user/user_dashboard")
+        else:
+            return render(request, "auth/login.html", {"error": "Invalid credentials"})
+
+    return render(request, "auth/login.html")
+
