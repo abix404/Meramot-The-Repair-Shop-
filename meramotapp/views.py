@@ -1,16 +1,13 @@
-from django.contrib.auth.models import User
 import random
-from meramotapp.models import CustomUser, Category, Service, Booking, SellerProfile, Order
+from meramotapp.models import CustomUser,User, Category, Service, Booking, SellerProfile, Order
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import SellerProfileForm, UserSignupForm, ServiceForm, BookingForm, SellerSignUpForm
+from .forms import SellerProfileForm, UserSignupForm, ServiceForm, BookingForm, SellerSignUpForm, UserLoginForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserLoginForm
 
 # Create your views here.
-
 
 def home(request):
     categories = Category.objects.all()
@@ -31,6 +28,10 @@ def category_list(request):
     categories = Category.objects.all()
     return render(request, 'category_list.html', {'categories': categories})
 
+def category_services(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    services = Service.objects.filter(category=category)
+    return render(request, "category_services.html", {"category": category, "services": services})
 
 def search_services(request):
     query = request.GET.get('query', '')
@@ -82,7 +83,7 @@ def register(request):
 
     return render(request, "auth/signup.html", {"form": form})
 
-
+# General User Sign Up
 
 def user_signup(request):
     if request.method == "POST":
@@ -99,7 +100,7 @@ def user_signup(request):
 
     return render(request, "auth/signup.html", {"form": form})
 
-
+# Seller Activities
 @login_required
 def seller_dashboard(request):
         services = Service.objects.filter(seller=request.user)
@@ -143,7 +144,7 @@ def service_detail(request, pk):
     service = get_object_or_404(Service, id=pk)
     return render(request, "service_detail.html", {"service": service})
 
-
+# General User Activities
 @login_required
 def book_service(request, service_id):
     service = get_object_or_404(Service, id=service_id)
@@ -173,7 +174,7 @@ def booking_success(request, booking_id):
 @login_required
 def user_dashboard(request):
     if request.user.is_seller:
-        return redirect("seller_dashboard")  # Prevent sellers from accessing
+        return redirect("seller_dashboard")
 
     orders = Booking.objects.filter(user=request.user)
     completed_services = Service.objects.filter(booking__user=request.user, booking__status="Completed")
@@ -193,6 +194,7 @@ def cancel_order(request, order_id):
 
     return redirect("user_dashboard")
 
+# General User Login
 def user_login(request):
     if request.method == "POST":
         form = UserLoginForm(request.POST)
@@ -213,7 +215,7 @@ def user_login(request):
 
     return render(request, "auth/login.html", {"form": form})
 
-
+# Admin Activities
 def is_admin(user):
     return user.is_superuser
 
@@ -223,22 +225,31 @@ def admin_dashboard(request):
     users = CustomUser.objects.all()
     sellers = CustomUser.objects.filter(is_seller=True, is_active=False)  # Pending verification
     orders = Order.objects.all()
-    return render(request, "admin_dashboard.html", {"users": users, "sellers": sellers, "orders": orders})
+    return render(request, "admin/admin_dashboard.html", {"users": users, "sellers": sellers, "orders": orders})
 
 @login_required
 @user_passes_test(is_admin)
 def verify_seller(request, seller_id):
     seller = get_object_or_404(CustomUser, id=seller_id)
-    seller.is_active = True  # Activate seller
+    seller.is_active = True
     seller.save()
     messages.success(request, "Seller has been verified.")
     return redirect("admin_dashboard")
 
-@login_required
 @user_passes_test(is_admin)
-def manage_orders(request):
-    orders = Order.objects.all()
-    return render(request, "manage_orders.html", {"orders": orders})
+def admin_manage_booking(request):
+    bookings = Booking.objects.all().order_by('-created_at')
+    return render(request, "admin/admin_manage_booking.html", {"bookings": bookings})
+
+@user_passes_test(is_admin)
+def update_booking_status(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+    if request.method == "POST":
+        new_status = request.POST.get("status")
+        booking.status = new_status
+        booking.save()
+        return redirect("admin_manage_booking")
+    return redirect("admin_manage_booking")
 
 
 

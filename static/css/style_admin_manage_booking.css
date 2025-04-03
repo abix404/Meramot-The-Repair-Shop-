@@ -1,0 +1,41 @@
+.admin-container {
+    width: 90%;
+    margin: auto;
+    text-align: center;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.booking-table th, .booking-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.booking-table th {
+    background-color: #f4f4f4;
+}
+
+select {
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.btn-delete {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-delete:hover {
+    text-decoration: underline;
+}

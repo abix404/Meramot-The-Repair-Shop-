@@ -49,6 +49,8 @@ urlpatterns = [
 
     path('categories/', views.category_list, name='category_list'),
 
+    path("category/<int:category_id>/", views.category_services, name="category_services"),
+
     path('search/', views.search_services, name='search_services'),
 
     path('service/<int:pk>/', views.service_detail, name='service_detail'),
@@ -61,6 +63,8 @@ urlpatterns = [
 
     path("verify-seller/<int:seller_id>/", views.verify_seller, name="verify_seller"),
 
-    path("manage-orders/", views.manage_orders, name="manage_orders"),
+    path("admin-manage-bookings/", views.admin_manage_booking, name="admin_manage_booking"),
+
+    path("update-booking-status/<int:booking_id>/", views.update_booking_status, name="update_booking_status"),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

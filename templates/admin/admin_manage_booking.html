@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Manage Bookings - Admin{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/style_admin_manage_booking.css' %}">
+{% endblock %}
+{% block content %}
+<div class="admin-container">
+    <h2>Manage Bookings</h2>
+    {% if bookings %}
+    <table class="booking-table">
+        <tr>
+            <th>Booking ID</th>
+            <th>User</th>
+            <th>Service</th>
+            <th>Seller</th>
+            <th>Booking Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.user.username }}</td>
+            <td>{{ booking.service.title }}</td>
+            <td>{{ booking.service.seller.username }}</td>
+            <td>{{ booking.date }}</td>
+            <td>{{ booking.time_slot }}</td>
+            <td>
+                <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                    {% csrf_token %}
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="Pending" {% if booking.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Confirmed" {% if booking.status == "Confirmed" %}selected{% endif %}>Confirmed</option>
+                        <option value="Completed" {% if booking.status == "Completed" %}selected{% endif %}>Completed</option>
+                        <option value="Canceled" {% if booking.status == "Canceled" %}selected{% endif %}>Canceled</option>
+                    </select>
+                </form>
+            </td>
+            <td>
+                <a href="#" class="btn-delete" onclick="confirmDelete({{ booking.id }})">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No bookings available.</p>
+    {% endif %}
+</div>
+
+<script>
+    function confirmDelete(bookingId) {
+        if (confirm("Are you sure you want to delete this booking?")) {
+            window.location.href = "/delete-booking/" + bookingId + "/";
+        }
+    }
+</script>
+
+{% endblock %}

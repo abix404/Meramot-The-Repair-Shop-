@@ -1,19 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: #f8f9fa;
-}
-
-.container {
+.container-category {
     text-align: center;
     width: 90%;
     max-width: 1200px;
