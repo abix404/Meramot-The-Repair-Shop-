@@ -4,14 +4,14 @@
 {% block title %}Deshboard- {{user.username}} {% endblock %}
 
 {% block extra_css %}
-
+<link rel="stylesheet" href="{% static 'css/style_user_dashboard.css' %}">
 {% endblock %}
 
-
 {% block content %}
+<div class="dashboard-container">
 <h2>Welcome, {{ user.username }}!</h2>
 
-    <h3>Your Orders</h3>
+    <h3>My Orders</h3>
     <ul>
         {% for order in orders %}
             <li>{{ order.service.title }} - {{ order.status }}
@@ -44,4 +44,5 @@
             <p>No completed services yet.</p>
         {% endfor %}
     </ul>
+</div>>
 {% endblock %}

@@ -2,48 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Footer{% endblock %}</title>
-
-    <style type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <style>
+        /* Reset styles */
         * {
-            text-decoration: none;
             margin: 0;
             padding: 0;
+            text-decoration: none;
+            box-sizing: border-box;
         }
+
         html, body {
             height: 100%;
-            margin: 0;
-        }
-        body {
             display: flex;
             flex-direction: column;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         }
+
         .content {
-            flex: 1;
+            flex: 1; /* Pushes footer to the bottom */
         }
+
         footer {
             background: #ededed;
+            padding: 15px 0;
         }
+
         .footdiv {
-            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-            padding: 10px;
             text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
+
         .footdiv ul {
             list-style: none;
-            padding: 0;
-            display: inline-flex;
-            gap: 30px;
-            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            font-size: 16px;
+            flex-wrap: wrap;
         }
+
+        /* Ensuring footer links do NOT inherit underlines */
         .footdiv ul li a {
-            color: #333333; /* Matches the white text from the image */
+            color: #333;
+            font-weight: 500;
+            text-decoration: none !important; /* Forcing no underline */
+            transition: color 0.3s ease;
         }
+
+        .footdiv ul li a:hover {
+            color: #1d4ed8; /* Soft hover effect */
+            text-decoration: underline; /* Underline only on hover */
+        }
+
         .footdiv p {
-            text-align: center;
-            color: #333333;
-            font-size: 15px;
-            margin-top: 10px;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #666;
         }
     </style>
 </head>
@@ -53,6 +70,7 @@
         <!-- Main page content goes here -->
         {% endblock %}
     </div>
+
     <footer>
         <div class="footdiv">
             <ul>
@@ -61,7 +79,7 @@
                 <li><a href="#">Consumer Health Data Privacy Disclosure</a></li>
                 <li><a href="#">Your Ads Privacy Choices</a></li>
             </ul>
-            <p>&copy; Copyright ©2025 Bokhtear Md Abid. All rights reserved</p>
+            <p>&copy; 2025 Bokhtear Md Abid. All rights reserved.</p>
         </div>
     </footer>
 </body>
