@@ -67,6 +67,7 @@ body {
 .service-card p {
     font-size: 14px;
     color: #666;
+    overflow: hidden;
 }
 
 .service-card .btn {
