@@ -251,5 +251,6 @@ def update_booking_status(request, booking_id):
         return redirect("admin_manage_booking")
     return redirect("admin_manage_booking")
 
-
+def about_us(request):
+    return render(request, 'about_us.html')
 

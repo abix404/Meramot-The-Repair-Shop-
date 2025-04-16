@@ -14,7 +14,6 @@
 
 {% block content %}
 <div class="container">
-    <!-- Image Slider -->
     <div id="serviceCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active">
@@ -35,7 +34,6 @@
         </button>
     </div>
 
-    <!-- Categories -->
     <h2 class="section-title">Our Service Categories</h2>
     <div class="row">
         {% for category in categories %}
@@ -70,7 +68,6 @@
 
     <!-- View All Services -->
     <button id="viewAllBtn" class="btn">View All</button>
-
     <script>
         document.getElementById("viewAllBtn").addEventListener("click", function() {
             document.getElementById("allServices").classList.toggle("hidden");

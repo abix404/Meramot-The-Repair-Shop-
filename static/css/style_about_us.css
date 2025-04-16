@@ -1,0 +1,126 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.layout_padding {
+    padding: 60px 0;
+}
+
+.about_section {
+    background-color: #ffffff;
+}
+
+.about_section .detail-box h2 {
+    font-size: 36px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 20px;
+}
+
+.about_section .detail-box p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.about_section .detail-box a {
+    display: inline-block;
+    padding: 12px 28px;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.about_section .detail-box a:hover {
+    background-color: #0056b3;
+}
+
+.about_section .img-box img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Info Section Styles */
+.info_section {
+    background-color: transparent;
+    color: #000000;
+    padding: 60px 0 40px;
+    text-align: center;
+}
+
+.info_section h4 {
+    font-size: 28px;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.info_items {
+    margin-top: 20px;
+}
+
+.info_items .item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.info_items .item:hover {
+    background-color: #495057;
+}
+
+.img-box i {
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: #1a6c61;
+}
+
+.info_items p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Social Icons */
+.social-box {
+    margin-top: 50px;
+}
+
+.social-box h4 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.social-box .box a {
+    color: #000000;
+    font-size: 22px;
+    margin: 0 12px;
+    transition: color 0.3s ease;
+}
+
+.social-box .box a:hover {
+    color: #1a6c61;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+    .about_section .detail-box,
+    .about_section .img-box {
+        text-align: center;
+    }
+
+    .info_items .row > div {
+        margin-bottom: 20px;
+    }
+}
