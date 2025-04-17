@@ -1,0 +1,76 @@
+/* seller_signup.css */
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: #f4f7fa;
+    min-height: 100vh;
+}
+
+.signup-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    max-width: 500px;
+    width: 100%;
+}
+
+.signup-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #333;
+    font-weight: 600;
+}
+
+.signup-card form p {
+    margin-bottom: 20px;
+}
+
+.signup-card input,
+.signup-card select,
+.signup-card textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.signup-card input:focus,
+.signup-card select:focus,
+.signup-card textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.signup-card button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.signup-card button:hover {
+    background-color: #0056b3;
+}
+
+.form-errors {
+    margin-top: 20px;
+    padding: 15px;
+    background: #ffe6e6;
+    border-left: 4px solid #ff4d4d;
+    border-radius: 6px;
+    color: #b30000;
+    font-size: 15px;
+}

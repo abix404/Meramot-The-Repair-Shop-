@@ -5,6 +5,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import SellerProfileForm, UserSignupForm, ServiceForm, BookingForm, SellerSignUpForm, UserLoginForm
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 
 # Create your views here.
@@ -254,3 +256,28 @@ def update_booking_status(request, booking_id):
 def about_us(request):
     return render(request, 'about_us.html')
 
+def contact_view(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        phone = request.POST['phone']
+        email = request.POST['email']
+        message = request.POST['message']
+
+        subject = f"New Contact Message from {name}"
+        body = f"""
+        Name: {name}
+        Phone: {phone}
+        Email: {email}
+        Message: {message}
+        """
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.ADMIN_EMAIL],
+            fail_silently=False
+        )
+        return redirect('contact')  # Optionally add a success message
+
+    return render(request, 'contact.html')

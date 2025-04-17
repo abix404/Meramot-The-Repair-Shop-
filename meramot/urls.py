@@ -67,6 +67,8 @@ urlpatterns = [
 
     path("admin-manage-bookings/", views.admin_manage_booking, name="admin_manage_booking"),
 
+    path('contact/', views.contact_view, name='contact'),
+
     path("update-booking-status/<int:booking_id>/", views.update_booking_status, name="update_booking_status"),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
