@@ -64,12 +64,17 @@ def test_seller_add_product():
     print("Current URL:", driver.current_url)
     driver.get(f"{BASE_URL}/seller/seller-dashboard/")
     time.sleep(2)
+    print("✅ Seller Dashboard")
 
+def test_seller_logout():
+    driver.get(f"{BASE_URL}/logout/")
+    print("👋 Logged out.")
 
 
 test_seller_signup()
 test_seller_login()
 test_seller_add_product()
+test_seller_logout()
 
 # Quit driver
 driver.quit()
