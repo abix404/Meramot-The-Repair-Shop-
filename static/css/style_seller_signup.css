@@ -1,28 +1,34 @@
 /* seller_signup.css */
+body{
+    background: url("/static/images/BG_1.png") 50% 0 no-repeat fixed;
+    background-size: cover;
 
+}
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 60px 20px;
-    background: #f4f7fa;
+    background: transparent;
     min-height: 100vh;
 }
 
 .signup-card {
-    background: #ffffff;
+    background: transparent;
+    backdrop-filter: blur(20px);
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     max-width: 500px;
     width: 100%;
+    color: white;
 }
 
 .signup-card h2 {
     text-align: center;
     margin-bottom: 30px;
     font-size: 28px;
-    color: #333;
+    color: #ffffff;
     font-weight: 600;
 }
 

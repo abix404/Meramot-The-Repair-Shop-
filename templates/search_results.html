@@ -9,7 +9,7 @@
                         <img src="{{ service.image.url }}" alt="{{ service.title }}">
                         <h3>{{ service.title }}</h3>
                         <p>{{ service.description|truncatewords:20 }}</p>
-                        <p><strong>Price:</strong> ${{ service.price }}</p>
+                        <p><strong>Price:</strong>{{ service.price }} TK</p>
                         <a href="{% url 'service_detail' service.id %}" class="btn">View Details</a>
                     </div>
                 {% endfor %}

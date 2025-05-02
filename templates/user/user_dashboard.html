@@ -38,7 +38,7 @@
     <ul>
         {% for service in completed_services %}
             <li>{{ service.title }}
-                <a href="{% url 'leave_review' service.id %}">Write Review</a>
+                <a href="#">Write Review</a>
             </li>
         {% empty %}
             <p>No completed services yet.</p>
