@@ -21,7 +21,7 @@ def test_user_signup():
     time.sleep(2)
     driver.find_element(By.NAME, "username").send_keys("testuser1")
     time.sleep(0.5)
-    driver.find_element(By.NAME, "email").send_keys("testuser1@example.com")
+    driver.find_element(By.NAME, "email").send_keys("testuser1@gmail.com")
     time.sleep(0.5)
     driver.find_element(By.NAME, "mobile_no").send_keys("0123456789")
     time.sleep(0.5)
